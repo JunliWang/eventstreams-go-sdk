@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@ import (
 	"context"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -173,7 +172,7 @@ var _ = Describe(`SchemaregistryV1`, func() {
 					Expect(req.Method).To(Equal("GET"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke GetGlobalRule with error: Operation response processing error`, func() {
@@ -385,7 +384,7 @@ var _ = Describe(`SchemaregistryV1`, func() {
 					Expect(req.Method).To(Equal("PUT"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke UpdateGlobalRule with error: Operation response processing error`, func() {
@@ -639,7 +638,7 @@ var _ = Describe(`SchemaregistryV1`, func() {
 					Expect(req.Method).To(Equal("POST"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke CreateSchemaRule with error: Operation response processing error`, func() {
@@ -893,7 +892,7 @@ var _ = Describe(`SchemaregistryV1`, func() {
 					Expect(req.Method).To(Equal("GET"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke GetSchemaRule with error: Operation response processing error`, func() {
@@ -1110,7 +1109,7 @@ var _ = Describe(`SchemaregistryV1`, func() {
 					Expect(req.Method).To(Equal("PUT"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke UpdateSchemaRule with error: Operation response processing error`, func() {
@@ -1606,7 +1605,7 @@ var _ = Describe(`SchemaregistryV1`, func() {
 					Expect(req.Method).To(Equal("POST"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke CreateVersion with error: Operation response processing error`, func() {
@@ -1855,7 +1854,7 @@ var _ = Describe(`SchemaregistryV1`, func() {
 					Expect(req.Method).To(Equal("GET"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke GetVersion with error: Operation response processing error`, func() {
@@ -2300,7 +2299,7 @@ var _ = Describe(`SchemaregistryV1`, func() {
 					Expect(req.Header["X-Registry-Artifactid"][0]).To(Equal(fmt.Sprintf("%v", "testString")))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke CreateSchema with error: Operation response processing error`, func() {
@@ -2314,7 +2313,7 @@ var _ = Describe(`SchemaregistryV1`, func() {
 				// Construct an instance of the CreateSchemaOptions model
 				createSchemaOptionsModel := new(schemaregistryv1.CreateSchemaOptions)
 				createSchemaOptionsModel.Schema = map[string]interface{}{"anyKey": "anyValue"}
-				createSchemaOptionsModel.ID = core.StringPtr("testString")
+				createSchemaOptionsModel.XRegistryArtifactID = core.StringPtr("testString")
 				createSchemaOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := schemaregistryService.CreateSchema(createSchemaOptionsModel)
@@ -2384,7 +2383,7 @@ var _ = Describe(`SchemaregistryV1`, func() {
 				// Construct an instance of the CreateSchemaOptions model
 				createSchemaOptionsModel := new(schemaregistryv1.CreateSchemaOptions)
 				createSchemaOptionsModel.Schema = map[string]interface{}{"anyKey": "anyValue"}
-				createSchemaOptionsModel.ID = core.StringPtr("testString")
+				createSchemaOptionsModel.XRegistryArtifactID = core.StringPtr("testString")
 				createSchemaOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with a Context to test a timeout error
@@ -2462,7 +2461,7 @@ var _ = Describe(`SchemaregistryV1`, func() {
 				// Construct an instance of the CreateSchemaOptions model
 				createSchemaOptionsModel := new(schemaregistryv1.CreateSchemaOptions)
 				createSchemaOptionsModel.Schema = map[string]interface{}{"anyKey": "anyValue"}
-				createSchemaOptionsModel.ID = core.StringPtr("testString")
+				createSchemaOptionsModel.XRegistryArtifactID = core.StringPtr("testString")
 				createSchemaOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -2483,7 +2482,7 @@ var _ = Describe(`SchemaregistryV1`, func() {
 				// Construct an instance of the CreateSchemaOptions model
 				createSchemaOptionsModel := new(schemaregistryv1.CreateSchemaOptions)
 				createSchemaOptionsModel.Schema = map[string]interface{}{"anyKey": "anyValue"}
-				createSchemaOptionsModel.ID = core.StringPtr("testString")
+				createSchemaOptionsModel.XRegistryArtifactID = core.StringPtr("testString")
 				createSchemaOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := schemaregistryService.SetServiceURL("")
@@ -2518,7 +2517,7 @@ var _ = Describe(`SchemaregistryV1`, func() {
 				// Construct an instance of the CreateSchemaOptions model
 				createSchemaOptionsModel := new(schemaregistryv1.CreateSchemaOptions)
 				createSchemaOptionsModel.Schema = map[string]interface{}{"anyKey": "anyValue"}
-				createSchemaOptionsModel.ID = core.StringPtr("testString")
+				createSchemaOptionsModel.XRegistryArtifactID = core.StringPtr("testString")
 				createSchemaOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation
@@ -2546,7 +2545,7 @@ var _ = Describe(`SchemaregistryV1`, func() {
 					Expect(req.Method).To(Equal("GET"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke GetLatestSchema with error: Operation response processing error`, func() {
@@ -2826,7 +2825,7 @@ var _ = Describe(`SchemaregistryV1`, func() {
 					Expect(req.Method).To(Equal("PUT"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `} this is not valid json {`)
+					fmt.Fprint(res, `} this is not valid json {`)
 				}))
 			})
 			It(`Invoke UpdateSchema with error: Operation response processing error`, func() {
@@ -3073,11 +3072,11 @@ var _ = Describe(`SchemaregistryV1`, func() {
 				// Construct an instance of the CreateSchemaOptions model
 				createSchemaOptionsModel := schemaregistryService.NewCreateSchemaOptions()
 				createSchemaOptionsModel.SetSchema(map[string]interface{}{"anyKey": "anyValue"})
-				createSchemaOptionsModel.SetID("testString")
+				createSchemaOptionsModel.SetXRegistryArtifactID("testString")
 				createSchemaOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createSchemaOptionsModel).ToNot(BeNil())
 				Expect(createSchemaOptionsModel.Schema).To(Equal(map[string]interface{}{"anyKey": "anyValue"}))
-				Expect(createSchemaOptionsModel.ID).To(Equal(core.StringPtr("testString")))
+				Expect(createSchemaOptionsModel.XRegistryArtifactID).To(Equal(core.StringPtr("testString")))
 				Expect(createSchemaOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewCreateSchemaRuleOptions successfully`, func() {
@@ -3303,7 +3302,7 @@ func CreateMockUUID(mockData string) *strfmt.UUID {
 }
 
 func CreateMockReader(mockData string) io.ReadCloser {
-	return ioutil.NopCloser(bytes.NewReader([]byte(mockData)))
+	return io.NopCloser(bytes.NewReader([]byte(mockData)))
 }
 
 func CreateMockDate(mockData string) *strfmt.Date {
