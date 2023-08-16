@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.37.1-66e80f2e-20210813-202232
+ * IBM OpenAPI SDK Code Generator Version: 3.75.0-726bc7e3-20230713-221716
  */
 
 // Package schemaregistryv1 : Operations and models for the SchemaregistryV1 service
@@ -29,13 +29,13 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/IBM/eventstreams-go-sdk/pkg/common"
+	common "github.com/IBM/eventstreams-go-sdk/pkg/common"
 	"github.com/IBM/go-sdk-core/v5/core"
 )
 
 // SchemaregistryV1 : IBM Event Streams schema registry management
 //
-// Version: 1.0.0
+// API Version: 1.3.0
 type SchemaregistryV1 struct {
 	Service *core.BaseService
 }
@@ -642,7 +642,7 @@ func (schemaregistry *SchemaregistryV1) CreateVersionWithContext(ctx context.Con
 
 	body := make(map[string]interface{})
 	if createVersionOptions.Schema != nil {
-		body = createVersionOptions.Schema
+		body["schema"] = createVersionOptions.Schema
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
@@ -672,12 +672,12 @@ func (schemaregistry *SchemaregistryV1) CreateVersionWithContext(ctx context.Con
 
 // GetVersion : Get a version of the schema
 // Retrieve a particular version of the schema.
-func (schemaregistry *SchemaregistryV1) GetVersion(getVersionOptions *GetVersionOptions) (result map[string]interface{}, response *core.DetailedResponse, err error) {
+func (schemaregistry *SchemaregistryV1) GetVersion(getVersionOptions *GetVersionOptions) (result *AvroSchema, response *core.DetailedResponse, err error) {
 	return schemaregistry.GetVersionWithContext(context.Background(), getVersionOptions)
 }
 
 // GetVersionWithContext is an alternate form of the GetVersion method which supports a Context parameter
-func (schemaregistry *SchemaregistryV1) GetVersionWithContext(ctx context.Context, getVersionOptions *GetVersionOptions) (result map[string]interface{}, response *core.DetailedResponse, err error) {
+func (schemaregistry *SchemaregistryV1) GetVersionWithContext(ctx context.Context, getVersionOptions *GetVersionOptions) (result *AvroSchema, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getVersionOptions, "getVersionOptions cannot be nil")
 	if err != nil {
 		return
@@ -715,7 +715,18 @@ func (schemaregistry *SchemaregistryV1) GetVersionWithContext(ctx context.Contex
 		return
 	}
 
-	response, err = schemaregistry.Service.Request(request, &result)
+	var rawResponse map[string]json.RawMessage
+	response, err = schemaregistry.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalAvroSchema)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
 
 	return
 }
@@ -845,13 +856,13 @@ func (schemaregistry *SchemaregistryV1) CreateSchemaWithContext(ctx context.Cont
 	}
 	builder.AddHeader("Accept", "application/json")
 	builder.AddHeader("Content-Type", "application/json")
-	if createSchemaOptions.ID != nil {
-		builder.AddHeader("X-Registry-ArtifactId", fmt.Sprint(*createSchemaOptions.ID))
+	if createSchemaOptions.XRegistryArtifactID != nil {
+		builder.AddHeader("X-Registry-ArtifactId", fmt.Sprint(*createSchemaOptions.XRegistryArtifactID))
 	}
 
 	body := make(map[string]interface{})
 	if createSchemaOptions.Schema != nil {
-		body = createSchemaOptions.Schema
+		body["schema"] = createSchemaOptions.Schema
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
@@ -881,12 +892,12 @@ func (schemaregistry *SchemaregistryV1) CreateSchemaWithContext(ctx context.Cont
 
 // GetLatestSchema : Get the latest version of a schema
 // Retrieves the lastest version of the specified schema.
-func (schemaregistry *SchemaregistryV1) GetLatestSchema(getLatestSchemaOptions *GetLatestSchemaOptions) (result map[string]interface{}, response *core.DetailedResponse, err error) {
+func (schemaregistry *SchemaregistryV1) GetLatestSchema(getLatestSchemaOptions *GetLatestSchemaOptions) (result *AvroSchema, response *core.DetailedResponse, err error) {
 	return schemaregistry.GetLatestSchemaWithContext(context.Background(), getLatestSchemaOptions)
 }
 
 // GetLatestSchemaWithContext is an alternate form of the GetLatestSchema method which supports a Context parameter
-func (schemaregistry *SchemaregistryV1) GetLatestSchemaWithContext(ctx context.Context, getLatestSchemaOptions *GetLatestSchemaOptions) (result map[string]interface{}, response *core.DetailedResponse, err error) {
+func (schemaregistry *SchemaregistryV1) GetLatestSchemaWithContext(ctx context.Context, getLatestSchemaOptions *GetLatestSchemaOptions) (result *AvroSchema, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getLatestSchemaOptions, "getLatestSchemaOptions cannot be nil")
 	if err != nil {
 		return
@@ -923,7 +934,19 @@ func (schemaregistry *SchemaregistryV1) GetLatestSchemaWithContext(ctx context.C
 		return
 	}
 
-	response, err = schemaregistry.Service.Request(request, &result)
+	var rawResponse map[string]json.RawMessage
+	response, err = schemaregistry.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalAvroSchema)
+		if err != nil {
+			return
+		}
+		response.Result = result
+	}
+
 	return
 }
 
@@ -1017,7 +1040,7 @@ func (schemaregistry *SchemaregistryV1) UpdateSchemaWithContext(ctx context.Cont
 
 	body := make(map[string]interface{})
 	if updateSchemaOptions.Schema != nil {
-		body = updateSchemaOptions.Schema
+		body["schema"] = updateSchemaOptions.Schema
 	}
 	_, err = builder.SetBodyContentJSON(body)
 	if err != nil {
@@ -1051,7 +1074,7 @@ type CreateSchemaOptions struct {
 	Schema map[string]interface{} `json:"schema,omitempty"`
 
 	// The name to assign to the new schema. This must be unique. If this value is not specified then a UUID is used.
-	ID *string `json:"-"`
+	XRegistryArtifactID *string `json:"X-Registry-ArtifactId,omitempty"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -1068,9 +1091,9 @@ func (_options *CreateSchemaOptions) SetSchema(schema map[string]interface{}) *C
 	return _options
 }
 
-// SetID : Allow user to set ID
-func (_options *CreateSchemaOptions) SetID(ID string) *CreateSchemaOptions {
-	_options.ID = core.StringPtr(ID)
+// SetXRegistryArtifactID : Allow user to set XRegistryArtifactID
+func (_options *CreateSchemaOptions) SetXRegistryArtifactID(xRegistryArtifactID string) *CreateSchemaOptions {
+	_options.XRegistryArtifactID = core.StringPtr(xRegistryArtifactID)
 	return _options
 }
 
@@ -1083,7 +1106,7 @@ func (options *CreateSchemaOptions) SetHeaders(param map[string]string) *CreateS
 // CreateSchemaRuleOptions : The CreateSchemaRule options.
 type CreateSchemaRuleOptions struct {
 	// The ID of the schema that the rule is to be associated with.
-	ID *string `json:"-" validate:"required,ne="`
+	ID *string `json:"id" validate:"required,ne="`
 
 	// The type of the rule. Currently only one type is supported (`COMPATIBILITY`).
 	Type *string `json:"type" validate:"required"`
@@ -1149,7 +1172,7 @@ func (options *CreateSchemaRuleOptions) SetHeaders(param map[string]string) *Cre
 // CreateVersionOptions : The CreateVersion options.
 type CreateVersionOptions struct {
 	// A schema ID. This identifies the schema for which a new version will be created.
-	ID *string `json:"-" validate:"required,ne="`
+	ID *string `json:"id" validate:"required,ne="`
 
 	// The AVRO schema.
 	Schema map[string]interface{} `json:"schema,omitempty"`
@@ -1186,7 +1209,7 @@ func (options *CreateVersionOptions) SetHeaders(param map[string]string) *Create
 // DeleteSchemaOptions : The DeleteSchema options.
 type DeleteSchemaOptions struct {
 	// The ID of the schema to delete.
-	ID *string `json:"-" validate:"required,ne="`
+	ID *string `json:"id" validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -1214,10 +1237,10 @@ func (options *DeleteSchemaOptions) SetHeaders(param map[string]string) *DeleteS
 // DeleteSchemaRuleOptions : The DeleteSchemaRule options.
 type DeleteSchemaRuleOptions struct {
 	// The ID of the schema that the rule is to be deleted from.
-	ID *string `json:"-" validate:"required,ne="`
+	ID *string `json:"id" validate:"required,ne="`
 
 	// The type of rule to delete. Currently only the value that can be specified is `COMPATIBILITY`.
-	Rule *string `json:"-" validate:"required,ne="`
+	Rule *string `json:"rule" validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -1258,10 +1281,10 @@ func (options *DeleteSchemaRuleOptions) SetHeaders(param map[string]string) *Del
 // DeleteVersionOptions : The DeleteVersion options.
 type DeleteVersionOptions struct {
 	// A schema ID that identifies the schema to delete a version from.
-	ID *string `json:"-" validate:"required,ne="`
+	ID *string `json:"id" validate:"required,ne="`
 
 	// The schema version number to delete.
-	Version *int64 `json:"-" validate:"required"`
+	Version *int64 `json:"version" validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -1296,7 +1319,7 @@ func (options *DeleteVersionOptions) SetHeaders(param map[string]string) *Delete
 // GetGlobalRuleOptions : The GetGlobalRule options.
 type GetGlobalRuleOptions struct {
 	// The type of the global rule to retrieve. Currently only `COMPATIBILITY` is supported.
-	Rule *string `json:"-" validate:"required,ne="`
+	Rule *string `json:"rule" validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -1330,7 +1353,7 @@ func (options *GetGlobalRuleOptions) SetHeaders(param map[string]string) *GetGlo
 // GetLatestSchemaOptions : The GetLatestSchema options.
 type GetLatestSchemaOptions struct {
 	// The ID of a schema.
-	ID *string `json:"-" validate:"required,ne="`
+	ID *string `json:"id" validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -1358,10 +1381,10 @@ func (options *GetLatestSchemaOptions) SetHeaders(param map[string]string) *GetL
 // GetSchemaRuleOptions : The GetSchemaRule options.
 type GetSchemaRuleOptions struct {
 	// The ID of the schema to retrieve the rule for.
-	ID *string `json:"-" validate:"required,ne="`
+	ID *string `json:"id" validate:"required,ne="`
 
 	// The type of rule to retrieve. Currently only the value that can be specified is `COMPATIBILITY`.
-	Rule *string `json:"-" validate:"required,ne="`
+	Rule *string `json:"rule" validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -1402,10 +1425,10 @@ func (options *GetSchemaRuleOptions) SetHeaders(param map[string]string) *GetSch
 // GetVersionOptions : The GetVersion options.
 type GetVersionOptions struct {
 	// The schema ID identifying which schema to return a version from.
-	ID *string `json:"-" validate:"required,ne="`
+	ID *string `json:"id" validate:"required,ne="`
 
 	// The version number that identifies the particular schema version to return.
-	Version *int64 `json:"-" validate:"required"`
+	Version *int64 `json:"version" validate:"required"`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -1458,7 +1481,7 @@ func (options *ListSchemasOptions) SetHeaders(param map[string]string) *ListSche
 // ListVersionsOptions : The ListVersions options.
 type ListVersionsOptions struct {
 	// The schema ID for which the list of versions will be returned.
-	ID *string `json:"-" validate:"required,ne="`
+	ID *string `json:"id" validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -1486,7 +1509,7 @@ func (options *ListVersionsOptions) SetHeaders(param map[string]string) *ListVer
 // UpdateGlobalRuleOptions : The UpdateGlobalRule options.
 type UpdateGlobalRuleOptions struct {
 	// The type of the global rule to update. Currently only `COMPATIBILITY` is supported.
-	Rule *string `json:"-" validate:"required,ne="`
+	Rule *string `json:"rule" validate:"required,ne="`
 
 	// The type of the rule. Currently only one type is supported (`COMPATIBILITY`).
 	Type *string `json:"type" validate:"required"`
@@ -1558,7 +1581,7 @@ func (options *UpdateGlobalRuleOptions) SetHeaders(param map[string]string) *Upd
 // UpdateSchemaOptions : The UpdateSchema options.
 type UpdateSchemaOptions struct {
 	// The ID of the schema to update.
-	ID *string `json:"-" validate:"required,ne="`
+	ID *string `json:"id" validate:"required,ne="`
 
 	// The AVRO schema.
 	Schema map[string]interface{} `json:"schema,omitempty"`
@@ -1595,10 +1618,10 @@ func (options *UpdateSchemaOptions) SetHeaders(param map[string]string) *UpdateS
 // UpdateSchemaRuleOptions : The UpdateSchemaRule options.
 type UpdateSchemaRuleOptions struct {
 	// The ID of the schema for which to update the rule configuration.
-	ID *string `json:"-" validate:"required,ne="`
+	ID *string `json:"id" validate:"required,ne="`
 
 	// The type of rule to update. Currently only the value that can be specified is `COMPATIBILITY`.
-	Rule *string `json:"-" validate:"required,ne="`
+	Rule *string `json:"rule" validate:"required,ne="`
 
 	// The type of the rule. Currently only one type is supported (`COMPATIBILITY`).
 	Type *string `json:"type" validate:"required"`
@@ -1674,41 +1697,16 @@ func (options *UpdateSchemaRuleOptions) SetHeaders(param map[string]string) *Upd
 	return options
 }
 
-// CompatibilityRuleConfig : Valid values for the `config` property of a compatibility rule.
-type CompatibilityRuleConfig struct {
+// AvroSchema : AvroSchema struct
+type AvroSchema struct {
+	// The AVRO schema.
+	Schema map[string]interface{} `json:"schema,omitempty"`
 }
 
-// UnmarshalCompatibilityRuleConfig unmarshals an instance of CompatibilityRuleConfig from the specified map of raw messages.
-func UnmarshalCompatibilityRuleConfig(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(CompatibilityRuleConfig)
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// Error : Error struct
-type Error struct {
-	// HTTP Status code of the response.
-	ErrorCode *int64 `json:"error_code" validate:"required"`
-
-	// Error message.
-	Message *string `json:"message" validate:"required"`
-
-	// Optional incident ID. IBM support can use this to correlate the error response with the underlying cause.
-	Incident *string `json:"incident,omitempty"`
-}
-
-// UnmarshalError unmarshals an instance of Error from the specified map of raw messages.
-func UnmarshalError(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(Error)
-	err = core.UnmarshalPrimitive(m, "error_code", &obj.ErrorCode)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "message", &obj.Message)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "incident", &obj.Incident)
+// UnmarshalAvroSchema unmarshals an instance of AvroSchema from the specified map of raw messages.
+func UnmarshalAvroSchema(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(AvroSchema)
+	err = core.UnmarshalPrimitive(m, "schema", &obj.Schema)
 	if err != nil {
 		return
 	}
